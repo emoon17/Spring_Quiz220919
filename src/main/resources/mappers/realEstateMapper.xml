@@ -19,5 +19,98 @@
 		WHERE
 			`id` = #{id}
  	</select>
- 
+ 	
+ 	<!-- 문제 2번 -->
+ 	<select id="selectRealEstateListByRentPrice" resultType="com.quiz.lesson03.model.RealEstate" parameterType="int">
+ 		SELECT
+	 		`id`
+			,`realtorId`
+			,`address`
+			,`area`
+			,`type`
+			,`price`
+			,`rentPrice`
+			,`createdAt`
+			,`updatedAt`
+		FROM
+			`real_estate`
+		WHERE
+		<![CDATA[
+			`rentPrice` < #{rentPrice}
+		]]>
+ 	</select>
+ 	<!-- 문제 3번 -->
+ 	<select id="selectRealEstateListByAreaAndPrice" resultType="com.quiz.lesson03.model.RealEstate" parameterType="map">
+ 		SELECT
+	 		`id`
+			,`realtorId`
+			,`address`
+			,`area`
+			,`type`
+			,`price`
+			,`rentPrice`
+			,`createdAt`
+			,`updatedAt`
+		FROM
+			`real_estate`
+		WHERE
+		<![CDATA[
+			`type` = '매매'
+			AND `area` >= #{area}
+			AND `price`<= #{price}
+		]]>
+		ORDER BY `id` DESC
+		<!-- 등록일 기준으로 내림차순 : id로 내림차순 하면 빠름. -->
+		
+ 	</select>
+ 	<!-- 퀴즈 2번 -->
+ 	<insert id="insertRealEstate" parameterType="com.quiz.lesson03.model.RealEstate">
+ 		INSERT INTO `real_estate`
+ 		(
+ 			`realtorId`
+			,`address`
+			,`area`
+			,`type`
+			,`price`
+			,`rentPrice`
+			,`createdAt`
+			,`updatedAt`
+ 		)
+ 		VALUES
+ 		(
+ 			#{realtorId}
+ 			, #{address}
+ 			, #{area}
+ 			, #{type}
+ 			, #{price}
+ 			, #{rentPrice}
+ 			, NOW()
+ 			, NOW()
+ 		)
+ 	</insert>
+ 	<insert id="insertRealEstateAsField" parameterType="com.quiz.lesson03.model.RealEstate">
+ 		INSERT INTO `real_estate`
+ 		(
+ 			`realtorId`
+			,`address`
+			,`area`
+			,`type`
+			,`price`
+			,`rentPrice`
+			,`createdAt`
+			,`updatedAt`
+ 		)
+ 		VALUES
+ 		(
+ 			#{realtorId}
+ 			, #{address}
+ 			, #{area}
+ 			, #{type}
+ 			, #{price}
+ 			, #{rentPrice}
+ 			, NOW()
+ 			, NOW()
+ 		)
+ 	</insert>
+ 	
  </mapper>
