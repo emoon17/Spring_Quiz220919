@@ -34,8 +34,8 @@ public class Lesson03Quiz02RestController {
 	//http://localhost/lesson03/quiz02/2?realtor_id=5
 	@RequestMapping("/2")
 	public String quiz02_2(
-			@RequestParam("realtorId") int realtor_Id ) {
-		int row = realEstateBO.addRealEstateAsField(realtor_Id, "썅떼빌리버 오피스텔 814호", 45, "월세", 100000, 120);
+			@RequestParam("realtor_Id") int realtorId ) {
+		int row = realEstateBO.addRealEstateAsField(realtorId, "썅떼빌리버 오피스텔 814호", 45, "월세", 100000, 120);
 		return "입력성공 : " + row;
 	}
 
