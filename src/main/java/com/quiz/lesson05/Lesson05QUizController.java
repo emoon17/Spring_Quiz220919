@@ -5,15 +5,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+import com.quiz.lesson05.bo.WeatherBO;
 import com.quiz.lesson05.model.Member;
+import com.quiz.lesson05.model.WeatherHistory;
 @RequestMapping("/lesson05/quiz")
 @Controller
 public class Lesson05QUizController {
+	
+	@Autowired
+	private WeatherBO weatherBO;
 
 	//http://localhost/lesson05/quiz/1
 	@GetMapping("/1")
@@ -192,6 +200,35 @@ public class Lesson05QUizController {
 	}
 		
 	
+	//http://localhost/lesson05/quiz/weather_history_view
+	// 목록 화면
+	@GetMapping("/weather_history_view")
+	public String weatherHistoryView(
+			Model model) {
+
+		//select
+		List<WeatherHistory> weatherHistoryList = weatherBO.getWeatherHistoryList();
+				/* weather = weatherBO.getWeatherById(weather.getId()); */
+		
+		//Model에 담기
+		
+		model.addAttribute("weather", weatherHistoryList);
+		return "lesson05/weatherHistory";
+	}
+
+	// 추가 화면
+	@GetMapping("/add_weather_view")
+	public String addWeatherView() {
+		return "lesson05/addWeather";
+	}
 	
+	
+	@PostMapping("/add_weather")
+	public String addWeather(
+			WeatherHistory weatherHistory) {
+		weatherBO.addWeather(weatherHistory);
+		
+		return "lesson05/weatherHistory";
+	}
 	
 }
