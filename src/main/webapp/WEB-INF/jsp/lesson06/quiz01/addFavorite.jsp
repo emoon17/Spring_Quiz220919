@@ -27,39 +27,49 @@
 	<label for="name"><b>제목</b></label>
 	<input type="text" id="name" name="name" class="form-control mb-2">
 	<label for="url"><b>주소</b></label>
-	<input type="text" id=""url"" name=""url"" class="form-control mb-3" >
+	<input type="text" id="url" name="url" class="form-control mb-3" >
 	<button type="button" id="flus" class="btn btn-success form-control" value="추가">추가</button>
 
 	<script>
-		$(document).ready(function() {
-			$('#flus').on('click', function() {
+		 $(document).ready(function() {
+			
+			$('#flus').on('click', function() { 
+				//validation
 				let name = $('#name').val().trim();
 				if (name.length == '') {
-					alert("이름을 입력하세요.");
+					alert("제목을 입력하세요.");
+					return;
 				}
-				let url = $('#url').val().tirm();
+				let url = $('#url').val().trim();
 				if (url.length == ''){
 					alert("주소를 입력하세요")
+					return;
 				}
+				
+				 if (!url.startsWith("http")){
+					alert("프로토콜이 빠졌습니다.")
+					return;
+				} 
+				$.ajax({
+					//Request
+					type:"POST"
+					, url:"/lesson06/quiz01/add_favorite"
+					, data:{"name":name, "url":url}
+				
+					//Response
+					, success:function(data) { // request 성공하면 실행
+						alert("입력완료");
+						//화면이동
+					location.href = "/lesson06/quiz01/after_add_favorite_view";  //-view로 이동해야 됌
+					}
+					, error:function(e) {
+						alert("에러" + e);
+					
+					}
+					
+				}); 
 			});
-			$.ajax({
-				//Request
-				type:"POST"
-				, url:"lesson06/quiz01/add_favorite"
-				, data:{"name":name, "url":url}
 			
-				//Response
-				, success:function(data) { // request 성공하면 실행
-					alert("입력완료");
-					//화면이동
-				//	location.href = "/lesson06/quiz01/" -view로 이동해야 됌
-				}
-				, error:function(e) {
-					alert("에러");
-				
-				}
-				
-			})
 		});
 	</script>
 
