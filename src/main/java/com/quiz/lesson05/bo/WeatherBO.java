@@ -14,9 +14,11 @@ public class WeatherBO {
 	@Autowired
 	private WeatherDAO weatherDAO;
 	
-	public void addWeather(WeatherHistory weather) {
+	public void addWeather(
+			String date, String weather, String microDust,
+			double temperatures, double precipitation, double windSpeed) {
 		
-		weatherDAO.insertWeather(weather);
+		weatherDAO.insertWeather(date, weather, microDust, temperatures, precipitation, windSpeed);
 		
 	}
 	
