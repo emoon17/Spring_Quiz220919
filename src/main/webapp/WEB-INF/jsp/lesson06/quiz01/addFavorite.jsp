@@ -24,10 +24,18 @@
 </head>
 <body>
 	<h1>즐겨 찾기 추가하기</h1>
-	<label for="name"><b>제목</b></label>
-	<input type="text" id="name" name="name" class="form-control mb-2">
-	<label for="url"><b>주소</b></label>
-	<input type="text" id="url" name="url" class="form-control mb-3" >
+	<div class="form-group">
+		<label for="name"><b>제목</b></label>
+		<input type="text" id="name" name="name" class="form-control mb-2">
+	</div>
+	<div class="form-group">
+		<label for="url"><b>주소</b></label>
+		<div class="d-flex">
+			<input type="text" id="url" name="url" class="form-control mb-3" >
+			<button type="button" id="urlCheckBtn" class="btn btn-info ml-2 " value="중복확인">중복확인</button>
+		</div>
+		<small id="urlStatusArea"></small>
+	</div>
 	<button type="button" id="flus" class="btn btn-success form-control" value="추가">추가</button>
 
 	<script>
@@ -45,8 +53,8 @@
 					alert("주소를 입력하세요")
 					return;
 				}
-				
-				 if (!url.startsWith("http")){
+				//http로 시작하지도 않고, https로도 시작하지도 않으면 alert
+				 if (!url.startsWith("http") && url.startsWith("https") == false){
 					alert("프로토콜이 빠졌습니다.")
 					return;
 				} 
@@ -57,10 +65,12 @@
 					, data:{"name":name, "url":url}
 				
 					//Response
-					, success:function(data) { // request 성공하면 실행
-						alert("입력완료");
+					, success:function(data) { // string json => object로 변환하는걸 내부적으로 해줌.
+						//alert(data);
+					if(data.result == "성공") { //object 키 밸류를 변환해줘서 성공 맞아서 화면 이동 됌
+						location.href = "/lesson06/quiz01/after_add_favorite_view";  //-view로 이동해야 됌
+					}
 						//화면이동
-					location.href = "/lesson06/quiz01/after_add_favorite_view";  //-view로 이동해야 됌
 					}
 					, error:function(e) {
 						alert("에러" + e);
@@ -68,6 +78,34 @@
 					}
 					
 				}); 
+			});
+				//중복 확인을 눌렀을 때
+			$('#urlCheckBtn').on('click', function() {
+				// 처음에 들어오자마자 urlStatusArea 하위 태그 초기화
+				$('#urlStatusArea').empty();
+				// validation 체크
+				let url = $('#url').val().trim();
+			
+				// 주소가 중복 됐는지 체크 -> Db에서 조회 -> ajax 통신하여 보내기
+				$.ajax({
+					//request
+					type:"get"
+					, url:"/lesson06/quiz01/is_duplication"
+					, data:{"url":url}
+					//response
+					, success:function(data) {
+						if(data.is_duplication == true) {
+							alert("중복");
+							$('#urlStatusArea').append('<span class="text-danger">중복 된 주소입니다.</span>')
+						}
+					 	if(data.is_duplication == '') {
+							alert("저장 가능한 url입니다.");
+						}
+					}
+					, error:function(e) {
+						alert("오류났습니다.");
+					}
+				});
 			});
 			
 		});

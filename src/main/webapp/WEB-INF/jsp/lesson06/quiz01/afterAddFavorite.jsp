@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!DOCTYPE html>
 <html>
@@ -36,9 +36,9 @@
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach var="favorited" items="favorite" varStatus="status">
+			<c:forEach var="favorited" items="${favorite}" >
 				<tr>
-					<td>${status.count}</td>
+					<td>${favorited.id}</td>
 					<td>${favorited.name}</td>
 					<td>${favorited.url}</td>
 				</tr>

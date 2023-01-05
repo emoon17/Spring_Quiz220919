@@ -1,6 +1,7 @@
 package com.quiz.lesson06.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -16,4 +17,6 @@ public interface FavoriteDAO {
 			@Param("url") String url);
 	
 	public List<Favorite> selectFavorite();
+	
+	public boolean existFavorite(String url);
 }
