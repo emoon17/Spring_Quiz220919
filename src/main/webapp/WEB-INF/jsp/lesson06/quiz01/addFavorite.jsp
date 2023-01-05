@@ -98,7 +98,7 @@
 							//alert("중복");
 							$('#urlStatusArea').append('<span class="text-danger">중복 된 주소입니다.</span>')
 						}
-					 	if(data.is_duplication == false) {
+					 	if(data.is_duplication == false && url.length != '') {
 							alert("저장 가능한 url입니다.");
 						}
 					}
