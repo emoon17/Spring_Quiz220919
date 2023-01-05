@@ -27,4 +27,8 @@ public class FavoriteBO {
 		return favoriteDAO.existFavorite(url);
 	}
 	
+	public void deleteFavoriteById(int id) {
+		favoriteDAO.deleteFavoriteById(id);
+	}
+	
 }

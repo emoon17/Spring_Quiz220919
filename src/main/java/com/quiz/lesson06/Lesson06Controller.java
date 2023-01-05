@@ -74,5 +74,20 @@ public class Lesson06Controller {
 		
 		return result;
 	}
+	
+	// 즐겨찾기 삭제하기 
+	@ResponseBody
+	@PostMapping("/delete")
+	public String deleteFavorite(
+			@RequestParam("id") String id,
+			Favorite favorite) {
+		//deleteg하기
+		favoriteBO.deleteFavoriteById(favorite.getId());
+		
+		return "성공";
+	}
+	
+	
+	
 
 }

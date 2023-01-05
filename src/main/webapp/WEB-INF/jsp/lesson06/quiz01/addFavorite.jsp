@@ -95,10 +95,10 @@
 					//response
 					, success:function(data) {
 						if(data.is_duplication == true) {
-							alert("중복");
+							//alert("중복");
 							$('#urlStatusArea').append('<span class="text-danger">중복 된 주소입니다.</span>')
 						}
-					 	if(data.is_duplication == '') {
+					 	if(data.is_duplication == false) {
 							alert("저장 가능한 url입니다.");
 						}
 					}
