@@ -32,7 +32,7 @@
 		<label for="url"><b>주소</b></label>
 		<div class="d-flex">
 			<input type="text" id="url" name="url" class="form-control mb-3" >
-			<button type="button" id="urlCheckBtn" class="btn btn-info ml-2 " value="중복확인">중복확인</button>
+			<button type="button" id="urlCheckBtn" class="btn btn-info ml-2 btn-sm" value="중복확인">중복확인</button>
 		</div>
 		<small id="urlStatusArea"></small>
 	</div>

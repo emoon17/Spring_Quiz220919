@@ -59,7 +59,7 @@
 					//request
 					type:"post"
 					, url:"/lesson06/quiz01/delete"
-					, data:{"btn_delete":btn_delete}
+					, data:{"id":btn_delete}
 					//response
 					, success:function(data){
 						location.href="lesson06/quiz01/after_add_favorite_view"
