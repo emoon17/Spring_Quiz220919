@@ -78,7 +78,7 @@
 						if (data.code == 1) {
 							//성공
 							//location.href="lesson06/quiz01/after_add_favorite_view" // 다시요청하는 거기 때문에 스크롤이 다시 맨위로 올라감
-							document.location.reload(true); // 스크롤이 위로 안 올라가고 보고 있는 화면에서 새로고침 -앞에 window나 document는 생략 가능
+							document.location.reload(); // 스크롤이 위로 안 올라가고 보고 있는 화면에서 새로고침 -앞에 window나 document는 생략 가능
 						} else if (data.code == 500){
 							//에러 
 							alert(data.error_messege);
