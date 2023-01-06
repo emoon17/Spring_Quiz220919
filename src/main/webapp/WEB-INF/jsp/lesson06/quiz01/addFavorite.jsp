@@ -30,11 +30,12 @@
 	</div>
 	<div class="form-group">
 		<label for="url"><b>주소</b></label>
-		<div class="d-flex">
-			<input type="text" id="url" name="url" class="form-control mb-3" >
-			<button type="button" id="urlCheckBtn" class="btn btn-info ml-2 btn-sm" value="중복확인">중복확인</button>
+		<div class="form-inline">
+			<input type="text" id="url" name="url" class="form-control col-10" >
+			<button type="button" id="urlCheckBtn" class="btn btn-info" value="중복확인">중복확인</button>
 		</div>
-		<small id="urlStatusArea"></small>
+		<small id="duplicationText" class="text-danger d-none">중복 된 URL입니다.</small>
+		<small id="avaliableText" class="text-success d-none">저장 가능한 URL입니다.</small>
 	</div>
 	<button type="button" id="flus" class="btn btn-success form-control" value="추가">추가</button>
 
@@ -85,25 +86,37 @@
 				$('#urlStatusArea').empty();
 				// validation 체크
 				let url = $('#url').val().trim();
-			
+				if (url.length == ''){
+					alert("주소를 입력하세요")
+					return;
+				}
+				//http로 시작하지도 않고, https로도 시작하지도 않으면 alert
+				 if (!url.startsWith("http") && url.startsWith("https") == false){
+					alert("프로토콜이 빠졌습니다.")
+					return;
+				} 
+
 				// 주소가 중복 됐는지 체크 -> Db에서 조회 -> ajax 통신하여 보내기
 				$.ajax({
 					//request
-					type:"get"
+					type:"post" // url은 길 수도 있어서 get은 한계가 있을 수도 있다.
 					, url:"/lesson06/quiz01/is_duplication"
 					, data:{"url":url}
 					//response
 					, success:function(data) {
 						if(data.is_duplication == true) {
 							//alert("중복");
-							$('#urlStatusArea').append('<span class="text-danger">중복 된 주소입니다.</span>')
+							$('#avaliableText').addClass("d-none");
+							$('#duplicationText').removeClass("d-none");
+						} else {
+							// 사용 가능한 URL
+							$('#duplicationText').addClass("d-none");
+							$('#avaliableText').removeClass("d-none");
 						}
-					 	if(data.is_duplication == false && url.length != '') {
-							alert("저장 가능한 url입니다.");
-						}
+					 
 					}
 					, error:function(e) {
-						alert("오류났습니다.");
+						alert("에러 " + e);
 					}
 				});
 			});

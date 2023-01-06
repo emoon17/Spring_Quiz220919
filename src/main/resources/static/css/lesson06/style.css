@@ -1,0 +1,17 @@
+@charset "UTF-8";
+
+#wrap {height:1200px;}
+header {height:100px;}
+nav {background-color:#E3871F; height:40px;}
+.contents{height:600px}
+.img_box{height:300px}
+.check_box{height:300px}
+.real-time-reserved{background-color:#B1520F}
+.confirm{background-color: #CF6317;}
+.reserve-confirm {color:#fff; font-size: 25px; }
+.input-form {width:250px}
+.subject {margin-right: 20px; color:#fff; font-size:15px;}
+
+footer{height:80px}
+.foot_text {font-size:12px}
+

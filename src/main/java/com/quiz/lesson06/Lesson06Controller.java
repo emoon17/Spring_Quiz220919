@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -63,28 +64,47 @@ public class Lesson06Controller {
 		return "lesson06/quiz01/afterAddFavorite";
 	}
 	
-	//주소 중복확인
+	//주소 중복확인 - AJAX 통신 요청 (model 못 씀)
 	@ResponseBody
-	@GetMapping("/is_duplication")
+	@PostMapping("/is_duplication")
 	public Map<String, Boolean> isDuplication(
 			@RequestParam("url") String url){
 		
 		Map<String, Boolean> result = new HashMap<>();
-		result.put("is_duplication", favoriteBO.existFavorite(url));
-		
+		//중복확인 select
+		Favorite favorite = favoriteBO.getFavoriteByUrl(url);
+		if (favorite != null) {
+			//중복일 때 
+			result.put("is_duplication", true);
+		} else { 
+			result.put("is_duplication", false);
+		}
+		//응답값 내리기
 		return result;
 	}
 	
-	// 즐겨찾기 삭제하기 
+	// 즐겨찾기 삭제하기 - AJAX 요청(Model안됌)
 	@ResponseBody
-	@PostMapping("/delete")
-	public String deleteFavorite(
+	@DeleteMapping("/delete") 
+	public Map<String, Object> deleteFavorite(
 			@RequestParam("id") int id
 			) {
-		//deleteg하기
-		favoriteBO.deleteFavoriteById(id);
 		
-		return "성공";
+		//json으로 이쁘게 보이게 하려구 키, 밸류로 넣는것.
+		Map<String, Object> result = new HashMap<>();
+		//delete하기
+		int row = favoriteBO.deleteFavoriteById(id);
+		if (row > 0) {
+			//성공 
+			result.put("code", 1); //임의로 지은 성공 번호
+			result.put("result", "성공"); 
+		} else {
+			//실패
+			result.put("code", 500);
+			result.put("result", "실패");
+			result.put("error_messege", "삭제 된 행이 없습니다");
+		}
+		return result;
 	}
 	
 	
