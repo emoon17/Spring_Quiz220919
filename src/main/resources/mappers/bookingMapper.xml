@@ -16,6 +16,7 @@
 		FROM
 			`booking`
  	</select>
+ 	
  	<delete id="deleteBooking" parameterType="int">
  		DELETE
  		FROM
@@ -23,4 +24,38 @@
  		WHERE
  			`id` = #{id}
  	</delete>
+ 	
+ 	<insert id="insertBooking" parameterType="map">
+ 		INSERT INTO `booking`
+ 		(
+ 			`name`
+			,`headcount`
+			,`day`
+			,`date`
+			,`phoneNumber`
+			,`createdAt`
+			,`updatedAt`
+ 		)
+ 		VAlUES
+ 		(
+ 			#{name}
+ 			, #{headcount}
+ 			, #{day}
+ 			, #{date}
+ 			, #{phoneNumber}
+ 			, NOW()
+ 			, NOW()
+ 		)
+ 		
+ 	</insert>
+ 	
+ 	<select id="selectCheckBooking" resultType="com.quiz.lesson06.model.Booking" parameterType="map">
+ 		SELECT
+ 			`id`
+ 			,`name`
+			,`phoneNumber`
+			
+		FROM
+			`booking`
+ 	</select>
  </mapper>

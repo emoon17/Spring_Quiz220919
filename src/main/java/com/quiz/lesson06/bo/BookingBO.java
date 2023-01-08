@@ -1,6 +1,8 @@
 package com.quiz.lesson06.bo;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,5 +22,19 @@ public class BookingBO {
 	
 	public int deleteBooking(int id) {
 		return bookingDAO.deleteBooking(id);
+	}
+	
+	public void addBooking(
+			String name,
+			Date date,
+			int day,
+			int headcount,
+			String phoneNumber) {
+		bookingDAO.insertBooking(name, date, day, headcount, phoneNumber);
+	}
+	
+
+	public Map<String, Object> getCheckBooking(String name, String phoneNumber){
+		return bookingDAO.selectCheckBooking(name, phoneNumber);
 	}
 }
