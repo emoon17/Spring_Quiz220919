@@ -23,5 +23,7 @@ public interface BookingDAO {
 			@Param("headcount") int headcount,
 			@Param("phoneNumber") String phoneNumber);
 	
-	public Map<String, Object> selectCheckBooking(@Param("name") String name, @Param("phoneNumber") String phoneNumber);
+	public Booking selectLastestCheckBooking( // 리스트로 받고 나중에 하나 빼도 되긴 함.
+			@Param("name") String name, 
+			@Param("phoneNumber") String phoneNumber);
 }

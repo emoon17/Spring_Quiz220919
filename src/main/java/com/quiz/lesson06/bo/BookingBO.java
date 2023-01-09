@@ -34,7 +34,7 @@ public class BookingBO {
 	}
 	
 
-	public Map<String, Object> getCheckBooking(String name, String phoneNumber){
-		return bookingDAO.selectCheckBooking(name, phoneNumber);
+	public Booking getLastestCheckBooking(String name, String phoneNumber){
+		return bookingDAO.selectLastestCheckBooking(name, phoneNumber);
 	}
 }

@@ -84,10 +84,11 @@
 			//datepicker
 			$('#date').datepicker({
 				dateFormat:"yy/MM/dd"
-				, mindate:0
+				, mindate:0 //오늘부터 그 뒤 선택
 				, monthNames: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
 				
 			});
+			// 현재날짜 디폴트
 			$('#date').datepicker('setDate', 'today');
 			
 			
@@ -95,17 +96,17 @@
 			$('#reservationBtn').on('click', function() {
 				//validation
 				let name = $('#name').val().trim();
-				if (name.length == '') {
+				if (name == '') {
 					alert("이름을 입력하세요.")
 					return;
 				}
 				let date = $('#date').val().trim();
-				if (date.length == '') {
+				if (date == '') {
 					alert("날짜를 선택하세요.")
 					return;
 				}
 				let day = $('#day').val().trim();
-				if (day.length == '') {
+				if (day == '') {
 					alert("숙박일수를 입력하세요.")
 					return;
 				}
@@ -123,7 +124,7 @@
 					return;
 				}
 				let phoneNumber = $('#phoneNumber').val().trim();
-				if (phoneNumber.length == '') {
+				if (phoneNumber == '') {
 					alert("핸드폰 번호를 입력하세요.")
 					return;
 				}
@@ -141,12 +142,12 @@
 					//response
 					, success:function(data){
 						if(data.result == "success") {
-							location.href="/lesson06/quiz03/booking_main_view"
-							
+							alert("예약 되었습니다.");
+							location.href="/lesson06/quiz03/booking_list_view";
 						}
 					}
 					, error:function(e){
-						alert("에러" + e);
+						alert("예약하는데 실패했습니다.");
 					}
 					
 				});

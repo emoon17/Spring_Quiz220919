@@ -62,12 +62,24 @@
 				<c:forEach var="booking" items="${bookingList}">
 					<tr>
 						<td>${booking.name}</td>
-						<td id="bookingDate">${booking.date}</td>
+						<td id="bookingDate"><fmt:formatDate value="${booking.date}" pattern="yyyy년 M월 d일" /> </td>
 						<td>${booking.day}</td>
 						<td>${booking.headcount}</td>
 						<td>${booking.phoneNumber}</td>
-						<td>${booking.state}</td>
-						<td><button type="buttont" value="삭제하기" class="del_btn btn btn-danger" data-booking-id="${booking.id}" >삭제</button></td>
+						<td>
+							<c:choose>
+								<c:when test="${booking.state eq '대기중'}">
+									<span class="text-info">${booking.state}</span>
+								</c:when>
+								<c:when test="${booking.state eq '확정'}">
+									<span class="text-success">${booking.state}</span>
+								</c:when>
+								<c:when test="${booking.state eq '취소'}">
+									<span class="text-danger">${booking.state}</span>
+								</c:when>
+							</c:choose>
+						</td>
+						<td><button type="button" value="삭제하기" class="del_btn btn btn-danger" data-booking-id="${booking.id}" >삭제</button></td>
 					</tr>
 				</c:forEach>
 				</tbody>
@@ -83,10 +95,6 @@
 	</div>
 	<script>
 	$(document).ready(function() {
-		// 예약날짜 datepicker
-		$('#bookingDate').datepicker({
-			dateFormat : "yy년 M월 d일", 
-		});
 		
 		//삭제 버튼을 눌렀을 때
 		$('.del_btn').on('click', function() {
@@ -102,16 +110,16 @@
 				//response
 				, success:function(data){
 					if (data.code == 1) {
-						document.location.reload();
+						//새로고침
+						//alert("d");
+						document.location.reload(true);
 					} else if(data.code == 500){
 						alert("삭제할 데이터가 없습니다.");
 					}
 				}
 				, error:function(e) {
-					alert("에러" + e);
+					alert("삭제하는데 통신하는데 실패했습니다." + e);
 				}
-				
-				
 			});
 		});
 		

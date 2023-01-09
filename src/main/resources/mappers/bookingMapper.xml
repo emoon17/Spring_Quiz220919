@@ -33,6 +33,7 @@
 			,`day`
 			,`date`
 			,`phoneNumber`
+			,`state`
 			,`createdAt`
 			,`updatedAt`
  		)
@@ -43,19 +44,31 @@
  			, #{day}
  			, #{date}
  			, #{phoneNumber}
+ 			, '대기중'
  			, NOW()
  			, NOW()
  		)
  		
  	</insert>
  	
- 	<select id="selectCheckBooking" resultType="com.quiz.lesson06.model.Booking" parameterType="map">
+ 	<select id="selectLastestCheckBooking" resultType="com.quiz.lesson06.model.Booking" parameterType="map">
  		SELECT
  			`id`
  			,`name`
+			,`headcount`
+			,`day`
+			,`date`
 			,`phoneNumber`
+			,`state`
+			,`createdAt`
+			,`updatedAt`
 			
 		FROM
 			`booking`
+		WHERE
+			`name` = #{name}
+			AND `phoneNumber` = #{phoneNumber}
+		ORDER BY `id` DESC
+		LIMIT 1
  	</select>
  </mapper>

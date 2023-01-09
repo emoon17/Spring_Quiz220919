@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -73,7 +74,7 @@
 					</div>
 					<div class="d-flex justify-content-end align-items-center m-3">
 						<span class="subject text-white">전화번호</span> <input
-							type="password" class="form-control input-form" id="phoneNumber"
+							type="text" class="form-control input-form" id="phoneNumber"
 							name="phoneNumber" placeholder="전화번호를 입력하세요">
 					</div>
 					<div class="text-right mt-2 mr-4">
@@ -127,7 +128,7 @@
 
 			//validation
 			let name = $('#name').val().trim();
-			if (id.length == ''){
+			if (name == ''){
 				alert("이름을 입력하세요");
 				return;
 			}
@@ -138,23 +139,31 @@
 			}
 		
 			//ajax
-			
-			//request
-			type:"post"
-			, url:"/lesson06/quiz03/check_booking"
-			
-			, data:{"name":name, "phoneNumber":phoneNumber}
-			
-			//response
-			, success:function(data) {
-				if (data.result == "success"){
-					alert("이름" + $(bookingList.name)
-							"날짜" + $(bookingList.date));
+			$.ajax({
+				//request
+				type:"post"
+				, url:"/lesson06/quiz03/check_booking"
+				
+				, data:{"name":name, "phoneNumber":phoneNumber}
+				
+				//response
+				, success:function(data) {
+					if (data.result == "success"){ //조회된 내역이 있을 때
+						let message = " 이름 : " + data.booking.name 
+						+ "\n 날짜 : " + data.booking.date.slice(0,10) //2023-01-10 출력하기 위해 글자 자르기. (0, 10)
+						+ "\n 일수 : " + data.booking.day
+						+ "\n 인원 : " + data.booking.headcount
+						+ "\n 상태 : " + data.booking.state;
+						alert(message);
+					} else { // 조회된 내역이 없을 때 또는 에러 상황
+						alert("예약 내역이 없습니다.")
+					}
 				}
-			}
-			, error:function(e){
-				alert("오류 " + e);
-			}
+				, error:function(e){
+					alert("오류 " + e);
+				}
+				
+			}); 
 		});
 	
 	});

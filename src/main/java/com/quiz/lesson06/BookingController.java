@@ -47,16 +47,16 @@ public class BookingController {
 	// 삭제하기 - ajax통신
 	@ResponseBody
 	@DeleteMapping("/delete_booking")
-	public Map<String, Integer> deleteBooking(
+	public Map<String, Object> deleteBooking(
 			@RequestParam("id") int id){
 		
-		Map<String, Integer> result = new HashMap<>();
+		Map<String, Object> result = new HashMap<>();
 		//delete -row가 0 이상 // 성공 0 이하 실패
 		int row = bookingBO.deleteBooking(id);
 		if(row > 0) {
-			result.put("result", 1);
+			result.put("code", 1);
 		} else {
-			result.put("result", 500);
+			result.put("code", 500);
 		}
 		
 		
@@ -90,7 +90,7 @@ public class BookingController {
 		return result;
 	}
 	
-	// 예약확인 alert띄우기
+	// AJAX 예약확인  alert띄우기 - 젤 최신 것만 가져오기 
 	@ResponseBody
 	@PostMapping("/check_booking")
 	public Map<String, Object> checkBooking(
@@ -98,12 +98,19 @@ public class BookingController {
 			@RequestParam("phoneNumber") String phoneNumber
 			){
 		
-		//select
-		bookingBO.getCheckBooking(name, phoneNumber);
+		//select - 최신 예약 정보 한 건 
+		Booking booking = bookingBO.getLastestCheckBooking(name, phoneNumber);
 		
 		//응답 값 내리기
 		Map<String, Object> result = new HashMap<>();
-		result.put("result", "success");
+		if (booking != null) {
+			// 성공이면
+			result.put("booking", booking); // 객체 통으로 집어 넣을 수 있음 (model 대신 사용)
+			result.put("result", "success");
+		} else {
+			result.put("result", "fail");
+		}
+		
 		
 		return result;
 		
